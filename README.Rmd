@@ -1,0 +1,45 @@
+---
+title: "Yogurt Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1) Describe the percentage of sales of existing flavors in the Greek yogurt category (all brands)
+
+```{r}
+## 1 #######################################################################################################
+dir = "/Users/l--jiaojiao/Desktop/analytics design/HW2"
+setwd(dir)
+library(foreign)
+library(ggplot2)
+hshldDemograph <- read.csv("hshldDemograph.csv")
+Demograph <- read.csv('hshldDemograph.csv')
+Attributes <- read.csv('itemsAttributes.csv')
+randItemSales <- read.csv('randItemSales.csv')
+storeItemSales <- read.csv('storeItemSales.csv')
+survItemSales <- read.csv('survItemSales.csv')
+
+df1 <- merge(Attributes,storeItemSales,by.x = "Item.Num", by.y = "Item.Num")
+df2 <- df1[df1$Class=='GREEK',]
+salesGreek <- aggregate(x=df2$Sales,by=list(df2$Flavor1),FUN = sum)
+salesGreek$percentage <- salesGreek$x/sum(salesGreek$x)
+
+```
+
+
+## 2) Describe the percentage of sales of existing yogurt flavors outside of Greek yogurt (regular class of yogurt)
+```{r}
+## 2 #######################################################################################################
+df3 <- df1[df1$Class!='GREEK',]
+salesRegular <- aggregate(x=df3$Sales,by=list(df3$Flavor1),FUN = sum)
+salesRegular$percentage <- salesRegular$x/sum(salesRegular$x)
+
+
+```
+
+## Including Plots
+
+
